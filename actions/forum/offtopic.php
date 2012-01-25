@@ -49,6 +49,12 @@ if ($topic_guid == 0) {
 		forward(REFERER);
 	}
 
+	remove_from_river_by_annotation($post->id);
+	add_to_river('river/forum/topic/create', 'create', $user_guid, $grouptopic->guid,
+			$grouptopic->access_id, $post->time_created);
+	
+	add_to_river('river/forum/create', 'create', $user->guid, $topic_guid, "", 0, $post_id);
+
 	$new_text .= '<p>[' . elgg_echo('cg:form:offtopic:warning_existing_topic') . ']</p>';
 
 	update_annotation($post->id, 'group_topic_post', $new_text, $post->value_type, $post->owner_guid, $post->access_id);
