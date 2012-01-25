@@ -15,7 +15,6 @@ $post = get_annotation($post_id);
 $original_topic = get_entity($post->entity_guid);
 
 $new_text = $post->value;
-$new_text .= '<p>[' . elgg_echo('cg:form:offtopic:warning') . ']</p>';
 
 // create a new post
 if ($topic_guid == 0) {
@@ -35,6 +34,7 @@ if ($topic_guid == 0) {
 	add_to_river('river/forum/topic/create', 'create', $user_guid, $grouptopic->guid,
 			$grouptopic->access_id, $original_topic->getTimeCreated());
 
+	$new_text .= '<p>[' . elgg_echo('cg:form:offtopic:warning_new_topic') . ']</p>';
 	update_annotation($post->id, 'group_topic_post', $new_text, $post->value_type, $post->owner_guid, $post->access_id);
 	$result = update_data("UPDATE {$CONFIG->dbprefix}annotations set entity_guid=$grouptopic->guid where id=$post->id");
 
@@ -48,6 +48,9 @@ if ($topic_guid == 0) {
 		register_error(elgg_echo("grouptopic:error"));
 		forward(REFERER);
 	}
+
+	$new_text .= '<p>[' . elgg_echo('cg:form:offtopic:warning_existing_topic') . ']</p>';
+
 	update_annotation($post->id, 'group_topic_post', $new_text, $post->value_type, $post->owner_guid, $post->access_id);
 	$result = update_data("UPDATE {$CONFIG->dbprefix}annotations set entity_guid=$topic_guid where id=$post->id");
 	forward($grouptopic->getURL());

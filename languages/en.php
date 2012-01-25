@@ -15,7 +15,8 @@ $english = array(
 	'cg:forum:offtopic:move_to' => 'Move to:',
 	'cg:forum:offtopic:new_post' => 'New Post',
 	'cg:forum:offtopic:success' => "Successfully moved",
-	'cg:form:offtopic:warning' => "Moderator: this comment was off-topic. It was moved to its own topic.",
+	'cg:form:offtopic:warning_new_topic' => "Moderator: this comment was off-topic. It was moved to its own topic.",
+	'cg:form:offtopic:warning_existing_topic' => "Moderator: this comment was off-topic. It was moved to a more appropriate topic.",
 
 	'cg:tabs:categorize' => 'Categorize',
 	'cg:tabs:combine' => 'Combine groups',
