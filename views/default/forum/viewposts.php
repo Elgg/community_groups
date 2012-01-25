@@ -10,6 +10,17 @@ if (isadminloggedin()) {
 	echo elgg_view('community_groups/forum_post_controls', array('post' => $vars['entity']));
 }
 
+if ($vars['entity']->canEdit()) {
+	$title = elgg_view('output/url', array(
+		'href' => $vars['url'] . 'mod/groups/edittopic.php?group='
+				. $vars['entity']->container_guid . '&topic='
+				. $vars['entity']->guid,
+		'text' => $vars['entity']->title
+	));
+} else {
+	$title = $vars['entity']->title;
+}
+
 $comment_limit = 50;
 
 //display follow up comments
@@ -28,7 +39,7 @@ echo $pagination;
 
 ?>
 	<!-- grab the topic title -->
-	<div id="content_area_group_title"><h2><?php echo $vars['entity']->title; ?></h2></div>
+	<div id="content_area_group_title"><h2><?php echo $title?></h2></div>
 <?php
 
 foreach ($vars['entity']->getAnnotations('group_topic_post', $comment_limit, $offset, "asc") as $post) {
