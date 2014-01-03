@@ -360,7 +360,7 @@ function community_groups_post_blog($username, $title, $body, $token) {
 		'cash' => 'costelloc',
 		'evan' => 'ewinslow',
 		'steve' => 'steve_clay',
-		'pawel', => 'srokap',
+		'pawel' => 'srokap',
 		'juho' => 'juho.jaakkola',
 		'matt' => 'Beck24',
 	);
