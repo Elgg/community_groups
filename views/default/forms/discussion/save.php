@@ -26,8 +26,24 @@ $guid = elgg_extract('guid', $vars, null);
             'pattern' => '[0-9]+',
             'autofocus' => true,
             'match_on' => 'groups',
+            'list' => 'featured-groups-datalist'
         ));
+        
+		$featuredGroups = elgg_get_entities_from_metadata(array(
+			'type' => 'group',
+			'metadata_name' => 'featured_group',
+			'metadata_value' => 'yes',
+			'limit' => 20,
+		));
     ?>
+    
+        <datalist id="featured-groups-datalist">
+            <?php foreach ($featuredGroups as $group) { ?>
+            <option value="<?php echo $group->guid; ?>">
+                <?php echo $group->getDisplayName(); ?>
+            </option>
+            <?php } ?>
+        </datalist>
     </label>
 </div>
 <div>
