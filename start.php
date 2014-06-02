@@ -392,7 +392,10 @@ function community_groups_post_blog($username, $title, $body, $token) {
 		'brett' => 'brett.profitt',
 		'cash' => 'costelloc',
 		'evan' => 'ewinslow',
-		'steve' => 'steve_clay'
+		'steve' => 'steve_clay',
+		'pawel' => 'srokap',
+		'juho' => 'juho.jaakkola',
+		'matt' => 'Beck24',
 	);
 
 	if (!array_key_exists($username, $username_mapping)) {
