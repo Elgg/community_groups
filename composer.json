@@ -1,0 +1,22 @@
+{
+    "name": "elgg/community_groups",
+    "description": "Overrides for Community groups. See README for details.",
+    "type": "elgg-plugin",
+    "keywords": [
+        "elgg",
+        "plugin",
+        "Enhancements"
+    ],
+    "homepage": "https://github.com/Elgg/community_groups",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Core developers",
+            "homepage": "https://github.com/Elgg/community_groups",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "composer/installers": ">=1.0.8"
+    }
+}
