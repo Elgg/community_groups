@@ -68,23 +68,6 @@ function community_groups_init() {
 
 	elgg_register_action('discussion/remove_ad', "$action_path/discussion/remove_ad.php", 'admin');
 	elgg_register_action('discussion/offtopic', "$action_path/discussion/offtopic.php", 'admin');
-
-	if (function_exists("elgg_ws_expose_function")) {
-		elgg_ws_expose_function(
-			'blog.post',
-			'community_groups_post_blog',
-			array(
-				'username' => array('type' => 'string'),
-				'title' => array('type' => 'string'),
-				'body' => array('type' => 'string'),
-				'token' => array('type' => 'string'),
-			),
-			'Post a blog.elgg.org blog post to the group forums',
-			'POST',
-			false,
-			false
-		);
-	}
 }
 
 
@@ -367,72 +350,4 @@ function community_groups_can_delete($owner_guid, $time_created) {
  */
 function community_groups_get_categories() {
 	return array('support', 'plugins', 'language', 'developers');
-}
-
-/**
- * Post a blog post in the blog forum
- *
- * @param string $username
- * @param string $title
- * @param string $body
- * @param string $token
- * @return bool
- */
-function community_groups_post_blog($username, $title, $body, $token) {
-
-	$stored_token = elgg_get_plugin_setting('blog_token', 'community_groups');
-	if ($stored_token !== $token) {
-		throw new InvalidParameterException('Bad token');
-	}
-
-	$title = "Elgg Blog: $title";
-
-	// blog.elgg.org to community.elgg.org
-	$username_mapping = array(
-		'brett' => 'brett.profitt',
-		'cash' => 'costelloc',
-		'evan' => 'ewinslow',
-		'steve' => 'steve_clay',
-		'pawel' => 'srokap',
-		'juho' => 'juho.jaakkola',
-		'matt' => 'Beck24',
-	);
-
-	if (!array_key_exists($username, $username_mapping)) {
-		throw new InvalidParameterException('Unknown user');
-	}
-
-	$username = $username_mapping[$username];
-	$user = get_user_by_username($username);
-	if (!$user) {
-		throw new InvalidParameterException('Unable to get user');
-	}
-	login($user);
-
-	$group_guid = elgg_get_plugin_setting('blog_group_guid', 'community_groups');
-	if (!$group_guid) {
-		throw new InvalidParameterException('Group GUID is not set');
-	}
-
-	$grouptopic = new ElggObject();
-	$grouptopic->subtype = "groupforumtopic";
-	$grouptopic->owner_guid = $user->getGUID();
-	$grouptopic->container_guid = $group_guid;
-	$grouptopic->access_id = ACCESS_PUBLIC;
-	$grouptopic->title = $title;
-	$grouptopic->description = $body;
-	$grouptopic->status = 'open';
-
-	if (!$grouptopic->save()) {
-		throw new InvalidParameterException('Unable to save post');
-	}
-
-	elgg_create_river_item(array(
-		'view' => 'river/object/groupforumtopic/create',
-		'action_type' => 'create',
-		'subject_guid' => $user->getGUID(),
-		'object_guid' => $grouptopic->guid,
-	));
-
-	return true;
 }
