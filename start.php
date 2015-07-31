@@ -60,7 +60,7 @@ function community_groups_init() {
 	// modify the menus on discussion posts
 	if (elgg_is_admin_logged_in()) {
 		elgg_register_plugin_hook_handler('register', 'menu:cg:moderator', 'community_groups_moderator_menu');
-		elgg_extend_view('object/groupforumtopic', 'community_groups/discussion/controls');
+		elgg_extend_view('object/discussion', 'community_groups/discussion/controls');
 		elgg_extend_view('object/discussion_reply', 'community_groups/discussion/controls');
 		elgg_register_ajax_view('community_groups/discussion/offtopic');
 	}
@@ -225,7 +225,7 @@ function community_groups_restrict_group_edit_action() {
 function community_groups_moderator_menu($hook, $type, $menu, $params) {
 	$entity = $params['entity'];
 
-	if ($entity->getSubtype() === 'groupforumtopic') {
+	if ($entity->getSubtype() === 'discussion') {
 		$options = array(
 			'name' => 'remove_ad',
 			'text' => elgg_echo('cg:menu:remove_ad'),
@@ -274,7 +274,7 @@ function community_groups_limit_editing($hook, $type, $menu, $params) {
 	$entity = $params['entity'];
 
 	// Check that we're dealing either with a discussion or a discussion reply
-	if ($entity->getSubtype() != 'groupforumtopic' && !$entity instanceof ElggDiscussionReply) {
+	if ($entity->getSubtype() != 'discussion' && !$entity instanceof ElggDiscussionReply) {
 		return;
 	}
 
