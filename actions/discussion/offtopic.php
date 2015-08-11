@@ -14,7 +14,7 @@ $user_guid = $reply->getOwnerGUID();
 $group_guid = $original_topic->getContainerGUID();
 
 $grouptopic = new ElggObject();
-$grouptopic->subtype = "groupforumtopic";
+$grouptopic->subtype = "discussion";
 $grouptopic->owner_guid = $user_guid;
 $grouptopic->container_guid = $group_guid;
 $grouptopic->access_id = $original_topic->access_id;
@@ -22,14 +22,14 @@ $grouptopic->title = $title;
 $grouptopic->description = $reply->description;
 $grouptopic->status = 'open';
 if (!$grouptopic->save()) {
-	register_error(elgg_echo("grouptopic:error"));
+	register_error(elgg_echo('discussion:error:notsaved'));
 	forward(REFERER);
 }
 
 elgg_delete_river(array('object_guid' => $reply->guid));
 
 elgg_create_river_item(array(
-	'view' => 'river/object/groupforumtopic/create',
+	'view' => 'river/object/discussion/create',
 	'action_type' => 'create',
 	'subject_guid' => $user_guid,
 	'object_guid' => $grouptopic->guid,
