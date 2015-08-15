@@ -68,7 +68,7 @@ $guid = elgg_extract('guid', $vars, null);
     </label>
 </div>
 <div>
-    <label><?php echo elgg_echo("groups:topicstatus"); ?><br />
+    <label><?php echo elgg_echo("discussion:topic:status"); ?><br />
 	<?php
 		echo elgg_view('input/select', array(
 			'name' => 'status',

@@ -1,7 +1,7 @@
 <?php
 elgg_gatekeeper();
 
-$title = elgg_echo('groups:addtopic');
+$title = elgg_echo('discussion:addtopic');
 
 elgg_load_library('elgg:discussion');
 
