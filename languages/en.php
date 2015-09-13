@@ -18,6 +18,7 @@ return array(
 	'cg:forum:offtopic:text' => "Post text",
 	'cg:forum:offtopic:success' => "Successfully move to new topic",
 	'cg:form:offtopic:warning' => "Moderator: this comment was off-topic. It was moved to its own topic.",
+	'cg:form:offtopic:warning:link' => "Read it here.",
 
 	'cg:tabs:categorize' => 'Categorize',
 	'cg:tabs:combine' => 'Combine groups',
@@ -60,7 +61,7 @@ return array(
 	'cg:groups:combine:same' => "The groups are the same",
 	'cg:groups:combine:nogroup' => "Unable to load one of the groups",
 	'cg:groups:categorize:success' => "Group categories have been added",
-	
+
 	'cg:groups:join:success' => "You are now a member of the group: %s",
 	'cg:groups:join:failure' => "We couldn't join you to the group: %s. Membership is probably invite-only.",
 
