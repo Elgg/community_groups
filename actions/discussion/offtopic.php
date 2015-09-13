@@ -45,5 +45,24 @@ $warning_text = elgg_echo('cg:form:offtopic:warning');
 $reply->description = "[{$warning_text} {$link}]";
 $reply->save();
 
+$user = get_user($user_guid);
+$site = elgg_get_site_entity();
+
+$subject = elgg_echo('cg:forum:offtopic:notify:title', array(), $user->language);
+$message = elgg_echo('cg:forum:offtopic:notify:body', array(
+	$user->name,
+	$site->name,
+	elgg_get_excerpt($grouptopic->description, 80),
+	$grouptopic->getURL(),
+), $user->language);
+
+// Let the user know that the comment was moved
+notify_user($user_guid, $site->guid, $subject, $message,
+	array(
+		'action' => 'move',
+		'object' => $grouptopic,
+	)
+);
+
 system_message(elgg_echo('cg:forum:offtopic:success'));
 forward($grouptopic->getURL());
