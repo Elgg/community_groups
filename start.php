@@ -25,7 +25,7 @@ function community_groups_init() {
 		elgg_register_plugin_hook_handler('register', 'menu:filter', 'community_groups_filter_menu');
 	}
 	elgg_register_plugin_hook_handler('route', 'groups', 'community_groups_router');
-	elgg_register_plugin_hook_handler('route', 'discussion', 'community_groups_router');
+	elgg_register_plugin_hook_handler('route', 'discussion', 'community_discussions_router');
 
 	// do not need normal sidebar menu in community site
 	elgg_unregister_event_handler('pagesetup', 'system', 'groups_setup_sidebar_menus');
@@ -34,7 +34,7 @@ function community_groups_init() {
 	elgg_register_plugin_hook_handler('register', 'menu:title', 'community_groups_restrict_group_add_button');
 	elgg_register_plugin_hook_handler('action', 'groups/edit', 'community_groups_restrict_group_edit_action');
 
-    // attempt to join a group on first post		
+    // attempt to join a group on first post
 	elgg_register_plugin_hook_handler('action', 'discussion/save', 'community_groups_discussion_save_handler');
 
 
@@ -79,7 +79,7 @@ function community_groups_init() {
  * @param string $type   'discussion/save'
  * @param mixed  $result ignored
  * @param mixed  $params ignored
- * 
+ *
  * @return void
  */
 function community_groups_discussion_save_handler($hook, $type, $result, $params) {
@@ -87,22 +87,22 @@ function community_groups_discussion_save_handler($hook, $type, $result, $params
     if (get_input('topic_guid')) {
         return NULL;
     }
-    
+
     $group = get_entity(get_input('container_guid'));
-    
+
     // Not a valid group. The action will give the appropriate error message
     if (!$group) {
         return NULL;
     }
-    
+
     // Already a member, so the permissions check is useless
     if ($group->isMember()) {
         return NULL;
     }
-    
+
     // not a member; attempt join
     if ($group->isPublicMembership() && $group->join(elgg_get_logged_in_user_entity())) {
-        system_message(elgg_echo("cg:groups:join:success", array($group->getDisplayName())));   
+        system_message(elgg_echo("cg:groups:join:success", array($group->getDisplayName())));
     } else {
         register_error(elgg_echo('cg:groups:join:failure', array($group->getDisplayName())));
     }
@@ -152,28 +152,45 @@ function community_groups_router($hook, $context, $params, $result) {
     if ($result === false) {
         return $result;
     }
-    
+
     $community_base = __DIR__ . "/pages";
-    
+
 	if ($context == 'groups' && $params['segments'][0] == 'all') {
 		require "$community_base/groups.php";
 		return false;
 	}
-	
-	if ($context == 'discussion') {
-	    switch ($params['segments'][0]) {
-	        case 'new':
-        	    require "$community_base/discussion/new.php";
-        	    return false;
-        	case 'all':
-        	    elgg_register_menu_item('title', array(
-        	        'name' => 'discussion:add',
-        	        'href' => '/discussion/new',
-        	        'text' => elgg_echo('discussion:add'),
-        	        'class' => 'elgg-button elgg-button-submit',
-                ));
-        	    break;
-    	}
+}
+
+/**
+ * Route overridden discussion pages
+ *
+ * @param type $hook    The name of the hook
+ * @param type $context The context/handler
+ * @param type $params  The parameters for routing
+ */
+function community_discussions_router($hook, $context, $params, $result) {
+	if ($result === false) {
+		return $result;
+	}
+
+	$community_base = __DIR__ . "/pages";
+
+	if (!isset($params['segments'][0])) {
+		$params['segments'][0] = 'all';
+	}
+
+	switch ($params['segments'][0]) {
+		case 'new':
+			require "$community_base/discussion/new.php";
+			return false;
+		case 'all':
+			elgg_register_menu_item('title', array(
+				'name' => 'discussion:add',
+				'href' => '/discussion/new',
+				'text' => elgg_echo('discussion:add'),
+				'class' => 'elgg-button elgg-button-submit',
+			));
+			break;
 	}
 }
 
