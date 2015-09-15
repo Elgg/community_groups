@@ -36,10 +36,13 @@ elgg_create_river_item(array(
 	'posted' => $reply->time_created
 ));
 
-// Add a warning text to the end of the original post
+// Replace the original content with a note and add a link that takes to the new topic
+$link = elgg_view('output/url', array(
+	'href' => $grouptopic->getURL(),
+	'text' => elgg_echo('cg:form:offtopic:warning:link'),
+));
 $warning_text = elgg_echo('cg:form:offtopic:warning');
-$new_text = "{$reply->description}<p>[{$warning_text}]</p>";
-$reply->description = $new_text;
+$reply->description = "[{$warning_text} {$link}]";
 $reply->save();
 
 system_message(elgg_echo('cg:forum:offtopic:success'));
