@@ -19,6 +19,13 @@ return array(
 	'cg:forum:offtopic:success' => "Successfully move to new topic",
 	'cg:form:offtopic:warning' => "Moderator: this comment was off-topic. It was moved to its own topic.",
 	'cg:form:offtopic:warning:link' => "Read it here.",
+	'cg:forum:offtopic:notify:title' => 'Your comment has been moved ',
+	'cg:forum:offtopic:notify:body' => 'Hi %s
+
+The administrators at %s have promoted your comment "%s" into its own separate discusson thread.
+
+You can find the new topic here:
+%s',
 
 	'cg:tabs:categorize' => 'Categorize',
 	'cg:tabs:combine' => 'Combine groups',
